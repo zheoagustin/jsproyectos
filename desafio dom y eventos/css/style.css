@@ -1,0 +1,48 @@
+body {
+    background: linear-gradient(to right, rgb(0, 0, 0), rgb(14, 108, 159));
+}
+h1 {
+    font-size: 30px;
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.fondo {
+    display: flex;
+    width: 100%;
+    height: 50vh;
+    background-color: rgb(230, 151, 5);
+    justify-content:center;
+    align-items: center;
+    border: 1px solid rgb(17, 16, 16);
+    box-shadow: 15px 15px 15px gray;
+}
+.infoSeleccionOn {
+    display: block;
+}
+.infoSeleccionOff {
+    display: none;
+}
+.nav {
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 50px;
+}
+.nav a:hover {
+    background-color: rgb(198, 198, 198) !important;
+    color: white !important;
+}
+.nav-link:focus {
+    color: black !important;
+}
+.nav a {
+    color: black;
+}
+#todo {
+    border: 5px solid rgb(0, 0, 0);
+    border-radius: 1%;
+    background-color: rgb(255, 255, 255);
+}
+.form-control {
+    width: 20% ;
+
+}

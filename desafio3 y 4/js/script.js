@@ -20,7 +20,7 @@ let carrito = []
 
 
 const menu = () => {
-    solicitud = parseInt(prompt("Desea solicitar turno para: \n\t 1 - Ortodoncia \n\t 2 - Pediatria \n\t 3 - Traumatologia \n\t 4 - Nutricionista"))
+    solicitud = parseInt(prompt("Desea solicitar turno para: \n\t 1 - Ortodoncia \n\t 2 - Pediatria \n\t 3 - Traumatologia \n\t 4 - Nutricionista \n\t ESC para salir "))
     switch (solicitud) {
         case 1:
             alert("Ha seleccionado un turno para " + italiano.especializacion + " en el " + italiano.hospital);
@@ -97,7 +97,7 @@ while (solicitud <1 || solicitud>4) {
 let turnoSelect = seleccionTurnos()
 let turnoFinal = "Ha seleccionado un turno para el " + turnoSelect
 let cuotas = preguntaCuotas();
-let resultadoFinal = "el interes en " + cuotas + " cuotas es de " + interes * cuotas + "%"
+let resultadoFinal = "el interes es de " + interes * cuotas + "%"
 
 
 const hospitalSeleccionado = (id) => {
@@ -106,8 +106,6 @@ const hospitalSeleccionado = (id) => {
 }
 hospitalSeleccionado(solicitud)
     carrito.push(turnoFinal, resultadoFinal)
-
-console.log(carrito);
 
 
 
