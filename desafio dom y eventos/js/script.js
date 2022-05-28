@@ -33,6 +33,16 @@ const cuota9 = document.getElementById("9")
 const cuota12 = document.getElementById("12")
 const cuotasParrafo = document.getElementById("pCuotas")
 
+let hospitalSeleccionadoLs =(key, value)=> {
+    localStorage.setItem(key, value)
+
+}
+let removerLocal= (hospital1, hospital2, hospital3)=>{
+    localStorage.removeItem(hospital1)
+    localStorage.removeItem(hospital2)
+    localStorage.removeItem(hospital3)
+
+}
 
 
 
@@ -44,7 +54,8 @@ let avisoItaliano = () => {
     seleccion.className = "container"
     cuotas.className = "container"
     carrito.push(italiano.especializacion, italiano.hospital, italiano.direccion)
-        ;
+    hospitalSeleccionadoLs("Hospital Italiano", JSON.stringify(italiano))    
+    removerLocal("Hospital Garrahan", "Hospital de Trauma", "Hospital de Nutricion")
 
 
 }
@@ -60,7 +71,8 @@ let avisoGarrahan = () => {
     seleccion.className = "container"
     cuotas.className = "container"
     carrito.push(garrahan.especializacion, garrahan.hospital, garrahan.direccion)
-        ;
+    hospitalSeleccionadoLs("Hospital Garrahan", JSON.stringify(garrahan))
+    removerLocal("Hospital Italiano", "Hospital de Trauma", "Hospital de Nutricion")
 }
 const clickGarrahan = document.getElementById("garrahan")
 clickGarrahan.addEventListener("click", avisoGarrahan)
@@ -72,7 +84,8 @@ let avisoTrauma = () => {
     seleccion.className = "container"
     cuotas.className = "container"
     carrito.push(trauma.especializacion, trauma.hospital, trauma.direccion)
-        ;
+    hospitalSeleccionadoLs("Hospital de Trauma", JSON.stringify(trauma))
+    removerLocal("Hospital Italiano", "Hospital Garrahan", "Hospital de Nutricion")
 }
 const clickTrauma = document.getElementById("trauma")
 clickTrauma.addEventListener("click", avisoTrauma)
@@ -85,7 +98,9 @@ let avisoCormillot = () => {
     seleccion.className = "container"
     cuotas.className = "container"
     carrito.push(nutricion.especializacion, nutricion.hospital, nutricion.direccion)
-        ;
+    hospitalSeleccionadoLs("Hospital de Nutricion", JSON.stringify(nutricion))
+    removerLocal ("Hospital Italiano", "Hospital Garrahan", "Hospital de Trauma")
+    
 }
 const clickCormillot = document.getElementById("cormillot")
 clickCormillot.addEventListener("click", avisoCormillot)
@@ -106,12 +121,10 @@ dirNo.addEventListener("click", mostrarDirOff)
 
 
 const valorInput = () => {
-    console.log(fechaSeleccionada.value)
     carrito.push("Ha seleccionado un turno para " + fechaSeleccionada.value)
     carrito.push(efectivo.value)
     alert("Ha seleccionado un turno para " + fechaSeleccionada.value + "\n" + efectivo.value  + "\n" )
-
-    ;
+    localStorage.setItem("Fecha Seleccionada", fechaSeleccionada.value )
 }
 btnTurno.addEventListener("click", valorInput)
 
@@ -162,8 +175,6 @@ const mostrarInteres12 = () => {
     carrito.push (" con un interes de " + interes * cuota12.value + "% en " + cuota12.value + " Cuotas")
 }
 cuota12.addEventListener("click", mostrarInteres12)
-
-
 
 
 
