@@ -17,6 +17,7 @@ const nutricion = new Opcion("Nutricionista", "Hospital Municipal de Nutricion D
 let turnos = [italiano, garrahan, trauma, nutricion]
 let carrito = []
 
+
 const inputTomarturno = document.getElementById("inputTurno")
 const infoSeleccion = document.getElementById("infoSeleccion");
 const seleccion = document.getElementById("direccion")
@@ -48,7 +49,6 @@ let removerLocal= (hospital1, hospital2, hospital3)=>{
 
 
 let avisoItaliano = () => {
-    console.log("Ha seleccionado un turno para para " + italiano.especializacion + " " + italiano.hospital)
     infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + italiano.direccion
     inputTomarturno.className = "mb-3"
     seleccion.className = "container"
@@ -65,7 +65,6 @@ clickItaliano.addEventListener("click", avisoItaliano)
 
 
 let avisoGarrahan = () => {
-    console.log("Ha seleccionado un turno para para " + garrahan.especializacion + " " + garrahan.hospital)
     infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + garrahan.direccion
     inputTomarturno.className = "mb-3"
     seleccion.className = "container"
@@ -78,7 +77,6 @@ const clickGarrahan = document.getElementById("garrahan")
 clickGarrahan.addEventListener("click", avisoGarrahan)
 
 let avisoTrauma = () => {
-    console.log("Ha seleccionado un turno para para " + trauma.especializacion + " " + trauma.hospital)
     infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + trauma.direccion
     inputTomarturno.className = "mb-3"
     seleccion.className = "container"
@@ -92,7 +90,6 @@ clickTrauma.addEventListener("click", avisoTrauma)
 
 
 let avisoCormillot = () => {
-    console.log("Ha seleccionado un turno para para " + nutricion.especializacion + " " + nutricion.hospital)
     infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + nutricion.direccion
     inputTomarturno.className = "mb-3"
     seleccion.className = "container"
@@ -119,11 +116,26 @@ let mostrarDirOff = () => {
 const dirNo = document.getElementById("dirNo")
 dirNo.addEventListener("click", mostrarDirOff)
 
-
-const valorInput = () => {
+const alertError = () => {
+    swal({
+        title: "No ha seleccionado una opcion correcta",
+        text: "No ha seleccionado correcamente los datos, ingrese nuevamente",
+        icon: "error",
+        button: "Finalizar",
+      });
+}
+const alertBien = () => {
     carrito.push("Ha seleccionado un turno para " + fechaSeleccionada.value)
     carrito.push(efectivo.value)
-    alert("Ha seleccionado un turno para " + fechaSeleccionada.value + "\n" + efectivo.value  + "\n" )
+    swal({
+        title: "Turno seleccionado correctamente",
+        text: "Ha seleccionado un turno para " + fechaSeleccionada.value + "\n" + efectivo.value  + "\n",
+        icon: "success",
+        button: "Finalizar",
+      });
+}
+const valorInput = () => {
+    carrito.length === 0 ? alertError() : alertBien();
     localStorage.setItem("Fecha Seleccionada", fechaSeleccionada.value )
 }
 btnTurno.addEventListener("click", valorInput)
