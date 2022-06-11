@@ -24,18 +24,15 @@ h1 {
 }
 .nav {
     justify-content: center;
-    background-color: rgb(255, 255, 255);
     margin-bottom: 50px;
 }
-.nav a:hover {
-    background-color: rgb(198, 198, 198) !important;
-    color: white !important;
-}
-.nav-link:focus {
-    color: black !important;
-}
-.nav a {
-    color: black;
+.navText {
+    text-align: center;
+    margin-top: 10px;
+    padding: 2px;
+    border: 2px solid black;
+    background-color: rgb(255, 255, 255);
+    
 }
 #todo {
     border: 5px solid rgb(0, 0, 0);

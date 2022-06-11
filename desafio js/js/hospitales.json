@@ -1,0 +1,27 @@
+[
+    {
+        "especializacion" : "Ortodoncia",
+        "hospital" : "Hospital Italiano",
+        "direccion": "Cordoba 2745",
+        "id" : "1"
+    },
+    {
+        "especializacion" : "Pediatria",
+        "hospital" : "HospitalGarrrahan",
+        "direccion": "Pichincha 1890",
+        "id" : "2"
+    },
+    {
+        "especializacion" : "Traumatologia",
+        "hospital" : " Hospital de Trauma Federico Abete",
+        "direccion": "Miraflores 123",
+        "id" : "3"
+    },
+    {
+        "especializacion" : "Nutricionista",
+        "hospital" : "Hospital Municipal de Nutricion Dr Alberto Cormillot",
+        "direccion": "Cordoba 2745",
+        "id" : "4"
+    }
+]
+
