@@ -34,7 +34,7 @@ h1 {
     background-color: rgb(255, 255, 255);
     
 }
-#todo {
+#all {
     border: 5px solid rgb(0, 0, 0);
     border-radius: 1%;
     background-color: rgb(255, 255, 255);
@@ -42,4 +42,17 @@ h1 {
 .form-control {
     width: 20% ;
 
+}
+#loginContainer {
+    display: flex;
+    justify-content: center;
+}
+.login {
+    background-color: white;
+    border: 5px solid black;
+    padding: 40px;
+
+}
+.login .form-control {
+    width: 100%;
 }

@@ -9,39 +9,72 @@ class Opcion {
     }
 }
 
-let carrito = []
+const inputNombreCompleto = document.getElementById("inputNombreCompleto")
+const inputDni = document.getElementById("inputDni")
+const loginForm = document.getElementById("loginForm")
+const contenido = document.getElementById("all")
+contenido.className = "infoSeleccionOff"
+const divTurno = document.getElementById("divTurno")
+divTurno.className = "infoSeleccionOff"
+const checkRecordar = document.getElementById("checkRecordar")
+checkRecordar.addEventListener("click", ()=>{
+    localStorage.setItem("Nombre Completo", inputNombreCompleto.value)
+    localStorage.setItem("DNI", inputDni.value)
+})
+const btnContinuar = document.getElementById("btnContinuar")
+btnContinuar.addEventListener("click", (e) => {
+    e.preventDefault()
+    if (inputNombreCompleto.value === "" || inputDni.value === "") {
+        swal({
+            title: "No ha ingresado los datos correctamente",
+            text: "Debe rellenar ambos campos correctamente",
+            icon: "error",
+            button: "Reingresar datos",
+        });
 
+    } else {
+        contenido.className = "container"
+        divTurno.className = "container"
+        loginForm.className = "infoSeleccionOff"
+    }
+})
+
+
+
+let carrito = []
 let listaHospitales = []
+
+// Funcion asincromatica para traer objetos desde el json
 async function crearHospitales() {
     await fetch("./js/hospitales.json")
-    .then(resp => resp.json()
-        .then(data => {
-            listaHospitales = data
-            listaHospitales.forEach(hospitales => {
-                switch (hospitales.id) {
-                    case '1':
-                        italiano = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
-                        break;
-                    case '2':
-                        garrahan = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
-                        break;
-                    case '3':
-                        trauma = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
-                        break;
-                    case '4':
-                        nutricion = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
-                        break;
-                    default:
-                        return;
-                }
-            });
-        }))
-        iniciarContenido()
+        .then(resp => resp.json()
+            .then(data => {
+                listaHospitales = data
+                listaHospitales.forEach(hospitales => {
+                    switch (hospitales.id) {
+                        case '1':
+                            italiano = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
+                            break;
+                        case '2':
+                            garrahan = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
+                            break;
+                        case '3':
+                            trauma = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
+                            break;
+                        case '4':
+                            nutricion = new Opcion(hospitales.especializacion, hospitales.hospital, hospitales.direccion, hospitales.id);
+                            break;
+                        default:
+                            return;
+                    }
+                });
+            }))
+    iniciarContenido()
 }
 
 crearHospitales()
 
-const iniciarContenido = () =>{
+const iniciarContenido = () => {
     const inputTomarturno = document.getElementById("inputTurno")
     const infoSeleccion = document.getElementById("infoSeleccion");
     const seleccion = document.getElementById("direccion")
@@ -57,86 +90,48 @@ const iniciarContenido = () =>{
     const cuota9 = document.getElementById("9")
     const cuota12 = document.getElementById("12")
     const cuotasParrafo = document.getElementById("pCuotas")
-    
-    let hospitalSeleccionadoLs = (key, value) => {
-        localStorage.setItem(key, value)
-    
-    }
-    let removerLocal = (hospital1, hospital2, hospital3) => {
-        localStorage.removeItem(hospital1)
-        localStorage.removeItem(hospital2)
-        localStorage.removeItem(hospital3)
-    
-    }
-    const pushHospitales = (especializacion, hospital, direccion) => {
-        carrito.push(especializacion, hospital, direccion)
-    }
-    
-    
-    
-    let avisoItaliano = () => {
-        infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + italiano.direccion
-        inputTomarturno.className = "mb-3"
-        seleccion.className = "container"
-        cuotas.className = "container"
-        hospitalSeleccionadoLs("Hospital Italiano", JSON.stringify(italiano))
-        removerLocal("Hospital Garrahan", "Hospital de Trauma", "Hospital de Nutricion")
-    
-    
-    }
     const clickItaliano = document.getElementById("italiano")
-    clickItaliano.addEventListener("click", avisoItaliano, pushHospitales(italiano.especializacion, italiano.hospital, italiano.direccion))
-    
-    
-    let avisoGarrahan = () => {
-        infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + garrahan.direccion
-        inputTomarturno.className = "mb-3"
-        seleccion.className = "container"
-        cuotas.className = "container"
-        hospitalSeleccionadoLs("Hospital Garrahan", JSON.stringify(garrahan))
-        removerLocal("Hospital Italiano", "Hospital de Trauma", "Hospital de Nutricion")
-    }
     const clickGarrahan = document.getElementById("garrahan")
-    clickGarrahan.addEventListener("click", avisoGarrahan, pushHospitales(garrahan.especializacion, garrahan.hospital, garrahan.direccion))
-    
-    let avisoTrauma = () => {
-        infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + trauma.direccion
-        inputTomarturno.className = "mb-3"
-        seleccion.className = "container"
-        cuotas.className = "container"
-        hospitalSeleccionadoLs("Hospital de Trauma", JSON.stringify(trauma))
-        removerLocal("Hospital Italiano", "Hospital Garrahan", "Hospital de Nutricion")
-    }
     const clickTrauma = document.getElementById("trauma")
-    clickTrauma.addEventListener("click", avisoTrauma, pushHospitales(trauma.especializacion, trauma.hospital, trauma.direccion))
-    
-    
-    let avisoCormillot = () => {
-        infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + nutricion.direccion
+    const clickCormillot = document.getElementById("cormillot")
+
+
+    let avisoHospitales = (dato) => {
+        infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + dato.direccion
         inputTomarturno.className = "mb-3"
         seleccion.className = "container"
         cuotas.className = "container"
-        hospitalSeleccionadoLs("Hospital de Nutricion", JSON.stringify(nutricion))
-        removerLocal("Hospital Italiano", "Hospital Garrahan", "Hospital de Trauma")
-    
     }
-    const clickCormillot = document.getElementById("cormillot")
-    clickCormillot.addEventListener("click", avisoCormillot, pushHospitales(nutricion.especializacion, nutricion.hospital, nutricion.direccion))
-    
+
+
+    clickItaliano.addEventListener("click", () => {
+        avisoHospitales(italiano)
+    })
+    clickGarrahan.addEventListener("click", () => {
+        avisoHospitales(garrahan)
+    })
+    clickTrauma.addEventListener("click", () => {
+        avisoHospitales(trauma)
+    })
+    clickCormillot.addEventListener("click", () => {
+        avisoHospitales(nutricion)
+    })
+
+
     let mostrarDir = () => {
         infoSeleccion.className = "infoSeleccionOn"
-    
+
     }
     const dirSi = document.getElementById("dirSi")
     dirSi.addEventListener("click", mostrarDir)
-    
+
     let mostrarDirOff = () => {
         infoSeleccion.className = "infoSeleccionOff"
-    
+
     }
     const dirNo = document.getElementById("dirNo")
     dirNo.addEventListener("click", mostrarDirOff)
-    
+
     const alertError = () => {
         swal({
             title: "No ha seleccionado una opcion correcta",
@@ -160,7 +155,7 @@ const iniciarContenido = () =>{
         localStorage.setItem("Fecha Seleccionada", fechaSeleccionada.value)
     }
     btnTurno.addEventListener("click", valorInput)
-    
+
     const resultadoEfectivo = () => {
         efectivo.innerHTML = "El total de su turno es de $" + precioFinal
         efectivo.className = "infoSeleccionOn"
@@ -169,49 +164,35 @@ const iniciarContenido = () =>{
         cuotasParrafo.className = "infoSeleccionOff"
     }
     pagoEfectivoOpcion.addEventListener("click", resultadoEfectivo)
-    
+
     const mostrarCuotas = () => {
         cantidadCuotas.className = "container"
         efectivo.className = "infoSeleccionOff"
         efectivo.value = "El total de su turno es de $" + precioFinal
     }
     pagoCuotasOpcion.addEventListener("click", mostrarCuotas)
-    
-    const mostrarInteres3 = () => {
-        cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota3.value + "% en " + cuota3.value + " Cuotas"
+
+    const mostrarInteres = (dato) => {
+        cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas"
         cuotasParrafo.className = "infoSeleccionOn"
-        cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota3.value + "% en " + cuota3.value + " Cuotas"
-        carrito.push(" con un interes de " + interes * cuota3.value + "% en " + cuota3.value + " Cuotas")
+        cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas"
+        carrito.push(" con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas")
     }
-    cuota3.addEventListener("click", mostrarInteres3)
-    
-    const mostrarInteres6 = () => {
-        cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota6.value + "% en " + cuota6.value + " Cuotas"
-        cuotasParrafo.className = "infoSeleccionOn"
-        cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota6.value + "% en " + cuota6.value + " Cuotas"
-        carrito.push(" con un interes de " + interes * cuota6.value + "% en " + cuota6.value + " Cuotas")
-    }
-    cuota6.addEventListener("click", mostrarInteres6)
-    
-    const mostrarInteres9 = () => {
-        cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota9.value + "% en " + cuota9.value + " Cuotas"
-        cuotasParrafo.className = "infoSeleccionOn"
-        cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota9.value + "% en " + cuota9.value + " Cuotas"
-        carrito.push(" con un interes de " + interes * cuota9.value + "% en " + cuota9.value + " Cuotas")
-    }
-    cuota9.addEventListener("click", mostrarInteres9)
-    
-    const mostrarInteres12 = () => {
-        cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota12.value + "% en " + cuota12.value + " Cuotas"
-        cuotasParrafo.className = "infoSeleccionOn"
-        cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * cuota12.value + "% en " + cuota12.value + " Cuotas"
-        carrito.push(" con un interes de " + interes * cuota12.value + "% en " + cuota12.value + " Cuotas")
-    }
-    cuota12.addEventListener("click", mostrarInteres12)
-    
-    
-    
-    
+    cuota3.addEventListener("click", () => {
+        mostrarInteres(cuota3)
+    })
+    cuota6.addEventListener("click", () => {
+        mostrarInteres(cuota6)
+    })
+    cuota9.addEventListener("click", () => {
+        mostrarInteres(cuota9)
+    })
+    cuota12.addEventListener("click", () => {
+        mostrarInteres(cuota12)
+    })
 }
+
+
+
 
 
