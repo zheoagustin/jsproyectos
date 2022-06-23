@@ -8,7 +8,8 @@ class Opcion {
         this.id = id;
     }
 }
-
+const divIngresar =  document.getElementById("divIngresar")
+const checkIngresar =  document.getElementById("checkIngresar")
 const inputNombreCompleto = document.getElementById("inputNombreCompleto")
 const inputDni = document.getElementById("inputDni")
 const loginForm = document.getElementById("loginForm")
@@ -17,13 +18,28 @@ contenido.className = "infoSeleccionOff"
 const divTurno = document.getElementById("divTurno")
 divTurno.className = "infoSeleccionOff"
 const checkRecordar = document.getElementById("checkRecordar")
-checkRecordar.addEventListener("click", ()=>{
-    localStorage.setItem("Nombre Completo", inputNombreCompleto.value)
-    localStorage.setItem("DNI", inputDni.value)
-})
 const btnContinuar = document.getElementById("btnContinuar")
+
+if (localStorage.getItem("Nombre Completo") || localStorage.getItem("DNI"))  {
+    divIngresar.className="mb-3 form-check"
+}
+checkIngresar.addEventListener("click", ()=>{
+    if (checkIngresar.checked) {
+        inputNombreCompleto.value= localStorage.getItem("Nombre Completo")
+        inputDni.value= localStorage.getItem("DNI")
+    }else{
+        inputNombreCompleto.value=""
+        inputDni.value=""
+    }
+
+})
+
 btnContinuar.addEventListener("click", (e) => {
     e.preventDefault()
+    if (checkRecordar.checked) {
+        localStorage.setItem("Nombre Completo", inputNombreCompleto.value)
+        localStorage.setItem("DNI", inputDni.value)
+    }
     if (inputNombreCompleto.value === "" || inputDni.value === "") {
         swal({
             title: "No ha ingresado los datos correctamente",
@@ -36,6 +52,7 @@ btnContinuar.addEventListener("click", (e) => {
         contenido.className = "container"
         divTurno.className = "container"
         loginForm.className = "infoSeleccionOff"
+
     }
 })
 
@@ -106,6 +123,7 @@ const iniciarContenido = () => {
 
     clickItaliano.addEventListener("click", () => {
         avisoHospitales(italiano)
+        
     })
     clickGarrahan.addEventListener("click", () => {
         avisoHospitales(garrahan)
@@ -118,43 +136,22 @@ const iniciarContenido = () => {
     })
 
 
-    let mostrarDir = () => {
-        infoSeleccion.className = "infoSeleccionOn"
+    let direccion = (dato) => {
+        infoSeleccion.className = dato
 
     }
     const dirSi = document.getElementById("dirSi")
-    dirSi.addEventListener("click", mostrarDir)
+    dirSi.addEventListener("click", ()=>{
+        direccion("infoSeleccionOn")
+    })
 
-    let mostrarDirOff = () => {
-        infoSeleccion.className = "infoSeleccionOff"
-
-    }
     const dirNo = document.getElementById("dirNo")
-    dirNo.addEventListener("click", mostrarDirOff)
+    dirNo.addEventListener("click", ()=>{
+    direccion("none")
+    })
 
-    const alertError = () => {
-        swal({
-            title: "No ha seleccionado una opcion correcta",
-            text: "No ha seleccionado correcamente los datos, ingrese nuevamente",
-            icon: "error",
-            button: "Finalizar",
-        });
-    }
-    const alertBien = () => {
-        carrito.push("Ha seleccionado un turno para " + fechaSeleccionada.value)
-        carrito.push(efectivo.value)
-        swal({
-            title: "Turno seleccionado correctamente",
-            text: "Ha seleccionado un turno para " + fechaSeleccionada.value + "\n" + efectivo.value + "\n",
-            icon: "success",
-            button: "Finalizar",
-        });
-    }
-    const valorInput = () => {
-        carrito.length === 0 ? alertError() : alertBien();
-        localStorage.setItem("Fecha Seleccionada", fechaSeleccionada.value)
-    }
-    btnTurno.addEventListener("click", valorInput)
+
+ 
 
     const resultadoEfectivo = () => {
         efectivo.innerHTML = "El total de su turno es de $" + precioFinal
@@ -162,6 +159,7 @@ const iniciarContenido = () => {
         efectivo.value = "El total de su turno es de $" + precioFinal
         cantidadCuotas.className = "infoSeleccionOff"
         cuotasParrafo.className = "infoSeleccionOff"
+        carrito.push(efectivo.value)
     }
     pagoEfectivoOpcion.addEventListener("click", resultadoEfectivo)
 
@@ -176,7 +174,9 @@ const iniciarContenido = () => {
         cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas"
         cuotasParrafo.className = "infoSeleccionOn"
         cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas"
+        carrito.pop(0)
         carrito.push(" con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas")
+        
     }
     cuota3.addEventListener("click", () => {
         mostrarInteres(cuota3)
@@ -190,6 +190,34 @@ const iniciarContenido = () => {
     cuota12.addEventListener("click", () => {
         mostrarInteres(cuota12)
     })
+    
+    const alertError = () => {
+        swal({
+            title: "No ha seleccionado una opcion correcta",
+            text: "No ha seleccionado correcamente los datos, ingrese nuevamente",
+            icon: "error",
+            button: "Finalizar",
+        });
+    }
+    const alertBien = () => {
+        carrito.push("Ha seleccionado un turno para " + fechaSeleccionada.value)
+        swal({
+            title: "Turno seleccionado correctamente",
+            text: "Ha seleccionado un turno para " + fechaSeleccionada.value + "\n" + efectivo.value + "\n",
+            icon: "success",
+            button: "Finalizar",
+        });
+        todo.className="none"
+    }
+    const valorInput = () => {
+        carrito.length === 0 ? alertError() : alertBien();
+
+    }
+    btnTurno.addEventListener("click", valorInput)
+
+    const todo = document.getElementById ("todo")
+   
+        
 }
 
 
