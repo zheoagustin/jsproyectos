@@ -8,6 +8,7 @@ class Opcion {
         this.id = id;
     }
 }
+//Apartado de manejo del DOM del login y LocalStorage
 const divIngresar =  document.getElementById("divIngresar")
 const checkIngresar =  document.getElementById("checkIngresar")
 const inputNombreCompleto = document.getElementById("inputNombreCompleto")
@@ -114,12 +115,11 @@ const iniciarContenido = () => {
 
 
     let avisoHospitales = (dato) => {
-        infoSeleccion.innerHTML = "La direccion de su hospital seleccionado es " + dato.direccion
+        infoSeleccion.innerHTML = `La direccion de su hospital seleccionado es ${dato.direccion}`
         inputTomarturno.className = "mb-3"
         seleccion.className = "container"
         cuotas.className = "container"
     }
-
 
     clickItaliano.addEventListener("click", () => {
         avisoHospitales(italiano)
@@ -154,28 +154,29 @@ const iniciarContenido = () => {
  
 
     const resultadoEfectivo = () => {
-        efectivo.innerHTML = "El total de su turno es de $" + precioFinal
+        efectivo.innerHTML = `El total de su turno es de $ ${precioFinal}`
         efectivo.className = "infoSeleccionOn"
-        efectivo.value = "El total de su turno es de $" + precioFinal
+        efectivo.value = `El total de su turno es de $ ${precioFinal}`
         cantidadCuotas.className = "infoSeleccionOff"
         cuotasParrafo.className = "infoSeleccionOff"
         carrito.push(efectivo.value)
     }
     pagoEfectivoOpcion.addEventListener("click", resultadoEfectivo)
 
+    //Funcion para representar el interes segun las cuotas seleccionadas y representarlas en el html
     const mostrarCuotas = () => {
         cantidadCuotas.className = "container"
         efectivo.className = "infoSeleccionOff"
-        efectivo.value = "El total de su turno es de $" + precioFinal
+        efectivo.value = `El total de su turno es de $ ${precioFinal}`
     }
     pagoCuotasOpcion.addEventListener("click", mostrarCuotas)
 
     const mostrarInteres = (dato) => {
-        cuotasParrafo.innerHTML = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas"
+        cuotasParrafo.innerHTML = `El total de su turno es de + ${precioFinal} con un interes de ${interes*dato.value}% en ${dato.value} Cuotas`
         cuotasParrafo.className = "infoSeleccionOn"
-        cuotasParrafo.value = "El total de su turno es de $" + precioFinal + " con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas"
+        cuotasParrafo.value = `El total de su turno es de + ${precioFinal} con un interes de ${interes*dato.value}% en ${dato.value} Cuotas`
         carrito.pop(0)
-        carrito.push(" con un interes de " + interes * dato.value + "% en " + dato.value + " Cuotas")
+        carrito.push(`con un interes de ${interes*dato.value} % en ${dato.value} Cuotas`)
         
     }
     cuota3.addEventListener("click", () => {
@@ -191,6 +192,7 @@ const iniciarContenido = () => {
         mostrarInteres(cuota12)
     })
     
+    //Validacion para dar error o success si el Carrito esta vacio o no
     const alertError = () => {
         swal({
             title: "No ha seleccionado una opcion correcta",
@@ -200,10 +202,10 @@ const iniciarContenido = () => {
         });
     }
     const alertBien = () => {
-        carrito.push("Ha seleccionado un turno para " + fechaSeleccionada.value)
+        carrito.push(`Ha seleccionado un turno para ${fechaSeleccionada.value}`)
         swal({
             title: "Turno seleccionado correctamente",
-            text: "Ha seleccionado un turno para " + fechaSeleccionada.value + "\n" + efectivo.value + "\n",
+            text: `Ha seleccionado un turno para ${fechaSeleccionada.value} \n ${efectivo.value} `,
             icon: "success",
             button: "Finalizar",
         });
@@ -216,7 +218,7 @@ const iniciarContenido = () => {
     btnTurno.addEventListener("click", valorInput)
 
     const todo = document.getElementById ("todo")
-   
+    
         
 }
 
